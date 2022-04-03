@@ -11,15 +11,60 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import board_image from './board_demo.jpg'
-
-
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import territoryNames from './App'
+import Constants from './Constants';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 const theme = createTheme();
+
+function Copyright(props) {
+    return (
+        <p></p>
+    );
+  }
+function Order(props){
+    const [from, setFrom] = React.useState('');
+    const [to,setTo] = React.useState('');
+    const handleFrom = (event) => {
+        setFrom(event.target.value);
+    };
+    const handleTo = (event) =>{
+        setTo(event.target.value);
+    }
+    return (
+        <div>
+            <Select
+                value={from}
+                label="from"
+                onChange={handleFrom}
+                id ="order-from"
+            >
+            {Constants.TERRYTORY_NAMES.map((name)=>(
+                <MenuItem key = {name} value = {name}>{name}</MenuItem>
+            ))}
+            </Select>
+            <Select
+                value = {to}
+                label = "to"
+                onChange={handleTo}
+                id = "order-to"
+            >
+            {Constants.TERRYTORY_NAMES.map((name)=>(
+                <MenuItem key = {name} value = {name}>{name}</MenuItem>
+            ))}
+            </Select>
+
+        </div>
+    );
+}
 
 export default function SignInSide() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    console.log(event.currentTarget);
+    console.log(data)
     console.log({
       email: data.get('email'),
       password: data.get('password'),
@@ -55,6 +100,7 @@ export default function SignInSide() {
             }}
           >
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <Order></Order>
               
               <Button
                 type="submit"
