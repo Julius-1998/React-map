@@ -24,38 +24,55 @@ function Copyright(props) {
     );
   }
 function Order(props){
+    var formData = new FormData();
     const [from, setFrom] = React.useState('');
     const [to,setTo] = React.useState('');
     const handleFrom = (event) => {
         setFrom(event.target.value);
+        formData.append("from",event.target.value)
+        for (var [key, value] of formData.entries()) { 
+            console.log(key, value);
+        }    
     };
     const handleTo = (event) =>{
         setTo(event.target.value);
+        formData.append("to",event.target.value)
+    }
+    const handleSubmit = (event) =>{
+        event.preventDefault();
+        const target = event.target;
+        console.log(formData)
+
+        for (var [key, value] of formData.entries()) { 
+            console.log(key, value);
+        }
     }
     return (
-        <div>
-            <Select
+        <form onSubmit={handleSubmit}>
+            <TextField
                 value={from}
                 label="from"
                 onChange={handleFrom}
                 id ="order-from"
+                select
             >
             {Constants.TERRYTORY_NAMES.map((name)=>(
                 <MenuItem key = {name} value = {name}>{name}</MenuItem>
             ))}
-            </Select>
-            <Select
+            </TextField>
+            <TextField
                 value = {to}
                 label = "to"
                 onChange={handleTo}
                 id = "order-to"
+                select
             >
             {Constants.TERRYTORY_NAMES.map((name)=>(
                 <MenuItem key = {name} value = {name}>{name}</MenuItem>
             ))}
-            </Select>
-
-        </div>
+            </TextField>
+            <Button type='submit'>Submit!</Button>
+        </form>
     );
 }
 
@@ -99,19 +116,12 @@ export default function SignInSide() {
               alignItems: 'center',
             }}
           >
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            {/* <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}> */}
               <Order></Order>
               
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
+        
               
-            </Box>
+            {/* </Box> */}
           </Box>
         </Grid>
       </Grid>
