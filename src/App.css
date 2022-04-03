@@ -2,6 +2,7 @@
   text-align: center;
 }
 
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -36,3 +37,24 @@
     transform: rotate(360deg);
   }
 }
+
+
+#territory-1 {
+  position: relative;
+  top: 200px;
+  left: 300px;
+  width: 10%;
+}
+#territory-2 {
+  position: relative;
+  top: 300px;
+  left: 400px;
+  width: 10%;
+}
+#territory-0 {
+  position: relative;
+  top: 400px;
+  left: 500px;
+  width: 10%;
+}
+

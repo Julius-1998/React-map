@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Board from './App';
+import ControlPanelDemo from './ControlPanel';
 import reportWebVitals from './reportWebVitals';
+import SignInSide from './ControlPanel';
 
+// ReactDOM.render(
+//   <Board/>,
+//   document.getElementById('root')
+// );
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <SignInSide/>,
   document.getElementById('root')
 );
 
