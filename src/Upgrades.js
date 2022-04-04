@@ -11,18 +11,19 @@ class UpgradeTerritory extends React.Component {
             territoryName: "",
             originalLevel: "",
             aimLevel: "",
-            operaterName: Global.USER_NAME
+            operatorName: Global.USER_NAME
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleSubmit=(event)=> {
         event.preventDefault();
-        this.props.addMessage({UpgradeTerritory:this.state});
+        this.props.addMessage(this.state);
     }
     handleChange=(event)=>{
         event.preventDefault();
+    
         const name = event.target.name;
-        const value = event.target.value;
+        const value = event.target.value.toString();
         this.setState({[name]:value})
     }
     render() {
@@ -67,18 +68,18 @@ class UpgradeUnit extends React.Component {
             originalLevel: "",
             aimLevel: "",
             num:0,
-            operaterName: Global.USER_NAME
+            operatorName: Global.USER_NAME
         }
     }
     handleChange=(event)=>{
         event.preventDefault()
         const name = event.target.name;
-        const value = event.target.value;
+        const value = event.target.value.toString();
         this.setState({[name]:value})
     }
     handleSubmit=(event)=> {
         event.preventDefault();
-        this.props.addMessage({UpgradeUnit:this.state});
+        this.props.addMessage(this.state);
     }
     render() {
         return (
@@ -123,33 +124,33 @@ class Order extends React.Component {
         this.state = {
             from: "",
             to: "",
-            type: "",
+            actionCategory: "",
             num:0,
-            operaterName: Global.USER_NAME
+            operatorName: Global.USER_NAME
         }
     };
     handleChange = (event) => {
         event.preventDefault();
         const name = event.target.name;
-        const value = event.target.value;
+        const value = event.target.value.toString();
         this.setState({[name]:value})
     }
        
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.addMessage({Order:this.state});
+        this.props.addMessage(this.state);
     }
    
     render() {
         return (
             <Box component="form" onSubmit={this.handleSubmit}>
                  <TextField
-                    value={this.state.type}
-                    label="type"
+                    value={this.state.actionCategory}
+                    label="actionCategory"
                     onChange={this.handleChange}
-                    id="order-type"
+                    id="order-actionCategory"
                     select
-                    name = "type"
+                    name = "actionCategory"
                 >
                     {Constants.ACTION_NAMES.map((name) => (
                         <MenuItem key={name} value={name}>{name}</MenuItem>

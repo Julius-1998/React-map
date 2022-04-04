@@ -15,22 +15,37 @@ class Message extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            messages: [],
+            orderMessages: [],
+            upgradeTerritoryMessages:[],
+            upgradeUnitMessages:[],
         }
         this.sendMessage = this.sendMessage.bind(this);
+        this.handleOrderMessage = this.handleOrderMessage.bind(this);
+        this.handleUpgradeTerritoryMessage = this.handleUpgradeTerritoryMessage.bind(this);
+        this.handleUpgradeUnitMessage = this.handleUpgradeUnitMessage.bind(this);
     }
-
-    handleMessage(message) {
-        this.state.messages.push(JSON.stringify(message));
-        this.setState({ messages: this.state.messages });
+    handleOrderMessage(message){
+        this.state.orderMessages.push(message);
+        this.setState({orderMessages:this.state.orderMessages});
+    }
+    handleUpgradeTerritoryMessage(message) {
+        this.state.upgradeTerritoryMessages.push(message);
+        this.setState({ upgradeTerritoryMessages: this.state.upgradeTerritoryMessages });
+    }
+    handleUpgradeUnitMessage(message) {
+        this.state.upgradeUnitMessages.push(message);
+        this.setState({ upgradeUnitMessages: this.state.upgradeUnitMessages });
+        console.log(this.state);
     }
     sendMessage() {
         const request = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(this.state.messages)
-        };
-        console.log(request)
+            body: JSON.stringify({order:this.state.orderMessages,
+                    upgradeTerritory:this.state.upgradeTerritoryMessages,
+                    upgradeUnit:this.state.upgradeUnitMessages})
+            };
+        console.log(request.body)
         fetch('/testAPI', request)
             .then(response => {
                 if (response.ok) {
@@ -42,19 +57,23 @@ class Message extends React.Component {
                     });
                 }
             });
-        this.setState({messages:[]})
-
+            this.setState({orderMessages:[]});
+            this.setState({upgradeTerritoryMessages:[]});
+            this.setState({upgradeUnitMessages:[]});
     }
     render() {
-        const messageDisplay = this.state.messages.map((message, index) => <p key={index} >{message}</p>);
+        const messageDisplay = 
+        this.state.orderMessages.map((message, index) => <p key={index} >{message}</p>)+
+        this.state.upgradeTerritoryMessages.map((message, index) => <p key={index} >{message}</p>)+
+        this.state.upgradeUnitMessages.map((message, index) => <p key={index} >{message}</p>);
         return (
             <>
                 <div>
                     {messageDisplay}
                 </div>
-                <Order addMessage={(message) => { this.handleMessage(message) }}></Order>
-                <UpgradeTerritory addMessage={(message) => { this.handleMessage(message) }}></UpgradeTerritory>
-                <UpgradeUnit addMessage={(message) => { this.handleMessage(message) }}></UpgradeUnit>
+                <Order addMessage={(message) => { this.handleOrderMessage(message) }}></Order>
+                <UpgradeTerritory addMessage={(message) => { this.handleUpgradeTerritoryMessage(message) }}></UpgradeTerritory>
+                <UpgradeUnit addMessage={(message) => { this.handleUpgradeUnitMessage(message) }}></UpgradeUnit>
                 <Button onClick={this.sendMessage}>Commit Messages</Button>
             </>
         )
