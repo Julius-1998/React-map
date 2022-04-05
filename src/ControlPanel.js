@@ -23,6 +23,7 @@ class Message extends React.Component {
         this.handleOrderMessage = this.handleOrderMessage.bind(this);
         this.handleUpgradeTerritoryMessage = this.handleUpgradeTerritoryMessage.bind(this);
         this.handleUpgradeUnitMessage = this.handleUpgradeUnitMessage.bind(this);
+        this.updateMap = this.updateMap.bind(this);
     }
     handleOrderMessage(message){
         this.state.orderMessages.push(message);
@@ -36,6 +37,9 @@ class Message extends React.Component {
         this.state.upgradeUnitMessages.push(message);
         this.setState({ upgradeUnitMessages: this.state.upgradeUnitMessages });
         console.log(this.state);
+    }
+    handleServerMessage(json){
+        this.props.applyServerMessage(json);
     }
     sendMessage() {
         const request = {
@@ -51,9 +55,7 @@ class Message extends React.Component {
                 if (response.ok) {
                     response.json().then(json => {
                         console.log(json);
-                        console.log(json.name);
-                        console.log(json.test);
-                        this.setState({ from: json.name })
+                        
                     });
                 }
             });
@@ -94,7 +96,10 @@ export default function SignInSide() {
             password: data.get('password'),
         });
     };
-
+    const handleServerMessage=(json)=>{
+        console.log("This is the json to be handled");
+        
+    }
     return (
         <ThemeProvider theme={theme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
@@ -123,12 +128,7 @@ export default function SignInSide() {
                             alignItems: 'center',
                         }}
                     >
-                        {/* <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}> */}
-                        <Message></Message>
-
-
-
-                        {/* </Box> */}
+                        <Message applyServerMessage ={(message)=>(this.handleServerMessage(message))}></Message>
                     </Box>
                 </Grid>
             </Grid>
