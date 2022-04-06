@@ -8,7 +8,8 @@ import board_image from './board_demo.jpg'
 import Global from './GlobalVariables';
 import { Order, UpgradeTerritory, UpgradeUnit } from './Upgrades';
 import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-
+import { Map } from './RiskMap';
+import TerritoryDetail from './SimpleDialog';
 const theme = createTheme();
 
 class Message extends React.Component {
@@ -23,7 +24,6 @@ class Message extends React.Component {
         this.handleOrderMessage = this.handleOrderMessage.bind(this);
         this.handleUpgradeTerritoryMessage = this.handleUpgradeTerritoryMessage.bind(this);
         this.handleUpgradeUnitMessage = this.handleUpgradeUnitMessage.bind(this);
-        this.updateMap = this.updateMap.bind(this);
     }
     handleOrderMessage(message){
         this.state.orderMessages.push(message);
@@ -117,7 +117,9 @@ export default function SignInSide() {
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}
-                />
+                >
+                                    <Map></Map>
+                </Grid>
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                     <Box
                         sx={{
