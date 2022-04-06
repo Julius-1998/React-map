@@ -4,94 +4,77 @@ import Box from '@mui/material/Box';
 import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import Constants from './Constants';
 import Global from './GlobalVariables';
-class UpgradeTerritory extends React.Component {
+class UpgradeTechOrder extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            territoryName: "",
-            originalLevel: "",
-            aimLevel: "",
-            operatorName: Global.USER_NAME
+            targetLevel: 0
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    handleSubmit=(event)=> {
+    handleSubmit = (event) => {
         event.preventDefault();
         this.props.addMessage(this.state);
+        
+        console.log("Adding UpgradeTechOrder!");
+        console.log(this.state);
     }
-    handleChange=(event)=>{
+    handleChange = (event) => {
         event.preventDefault();
-    
+
         const name = event.target.name;
         const value = event.target.value.toString();
-        this.setState({[name]:value})
+        this.setState({ [name]: value })
     }
     render() {
         return (
             <Box component="form" onSubmit={this.handleSubmit} noValidate autoComplete="off">
+
                 <TextField
-                    value={this.state.territoryName}
-                    name="territoryName"
-                    id="upgrade-territory-territoryName"
-                    select
+                    value={this.state.targetLevel}
+                    name="targetLevel"
+                    id="upgrade-territory-targetLevel"
                     onChange={this.handleChange}
-                >
-                    { Object.entries(Global.TERRITORIES).map(([name,properties]) => (
-                        <MenuItem key={name} value={name}>{name}</MenuItem>
-                    ))}
-                </TextField>
-                <TextField
-                    value={this.state.originalLevel}
-                    name="originalLevel"
-                    id="upgrade-territory-originalLevel"
-                    onChange={this.handleChange}
-                    type = "number"
-                >
-                </TextField>
-                <TextField
-                    value={this.state.aimLevel}
-                    name="aimLevel"
-                    id="upgrade-territory-aimLevel"
-                    onChange={this.handleChange}
-                    type = "number"
-                    />
-                <Button type = "submit">submit!</Button>
+                    type="number"
+                />
+                <Button type="submit">submit!</Button>
             </Box>
         )
     }
 }
-class UpgradeUnit extends React.Component {
+class UpgradeUnitsOrder extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            territoryName: "",
-            originalLevel: "",
-            aimLevel: "",
-            num:0,
-            operatorName: Global.USER_NAME
+            source: "",
+            originalLevel: 0,
+            targetLevel: "",
+            unitNum: 0
         }
     }
-    handleChange=(event)=>{
+    handleChange = (event) => {
         event.preventDefault()
         const name = event.target.name;
         const value = event.target.value.toString();
-        this.setState({[name]:value})
+        this.setState({ [name]: value })
     }
-    handleSubmit=(event)=> {
+    handleSubmit = (event) => {
         event.preventDefault();
         this.props.addMessage(this.state);
+        console.log("Adding UpgradeUnitsOrder!");
+        console.log(this.state);
     }
     render() {
         return (
             <Box component="form" onSubmit={this.handleSubmit} noValidate autoComplete="off">
                 <TextField
-                    value={this.state.territoryName}
-                    name="territoryName"
-                    id="upgrade-unit-territoryName"
+                    value={this.state.source}
+                    name="source"
+                    id="upgrade-unit-source"
                     select
                     onChange={this.handleChange}
                 >
-                    { Object.entries(Global.TERRITORIES).map(([name,properties]) => (
+                    {Object.entries(Global.TERRITORIES).map(([name, properties]) => (
                         <MenuItem key={name} value={name}>{name}</MenuItem>
                     ))}
                 </TextField>
@@ -100,21 +83,28 @@ class UpgradeUnit extends React.Component {
                     name="originalLevel"
                     id="upgrade-unit-originalLevel"
                     onChange={this.handleChange}
-                    type = "number"
+                    type="number"
                 >
                 </TextField>
                 <TextField
-                    value={this.state.aimLevel}
-                    name="aimLevel"
-                    id="upgrade-unit-aimLevel"
+                    value={this.state.targetLevel}
+                    name="targetLevel"
+                    id="upgrade-unit-targetLevel"
                     onChange={this.handleChange}
-                    type = "number"
-                    />
-                <Button type = "submit">submit!</Button>
+                    type="number"
+                />
+                <TextField
+                    value={this.state.unitNum}
+                    name="unitNum"
+                    id="upgrade-unit-unitNum"
+                    onChange={this.handleChange}
+                    type="number"
+                />
+                <Button type="submit">submit!</Button>
             </Box>
         )
     }
-    
+
 }
 class Order extends React.Component {
     constructor(props) {
@@ -122,79 +112,91 @@ class Order extends React.Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
-            from: "",
-            to: "",
-            actionCategory: "",
-            num:0,
-            operatorName: Global.USER_NAME
+            origin: "",
+            target: "",
+            unitNum: 0,
+            unitLevel: 0,
+            actionCategory:"",
+            
         }
     };
     handleChange = (event) => {
         event.preventDefault();
         const name = event.target.name;
         const value = event.target.value.toString();
-        this.setState({[name]:value})
+        this.setState({ [name]: value })
     }
-       
+
     handleSubmit = (event) => {
         event.preventDefault();
+        console.log("Adding order!");
+        console.log(this.state);
+
         this.props.addMessage(this.state);
     }
-   
+
     render() {
         return (
             <Box component="form" onSubmit={this.handleSubmit}>
-                 <TextField
+                <TextField
                     value={this.state.actionCategory}
                     label="actionCategory"
                     onChange={this.handleChange}
                     id="order-actionCategory"
                     select
-                    name = "actionCategory"
+                    name="actionCategory"
                 >
                     {Constants.ACTION_NAMES.map((name) => (
                         <MenuItem key={name} value={name}>{name}</MenuItem>
                     ))}
                 </TextField>
                 <TextField
-                    value={this.state.from}
-                    label="from"
+                    value={this.state.origin}
+                    label="origin"
                     onChange={this.handleChange}
-                    id="order-from"
+                    id="order-origin"
                     select
-                    name = "from"
+                    name="origin"
                 >
-                    { Object.entries(Global.TERRITORIES).map(([name,properties]) => (
+                    {Object.entries(Global.TERRITORIES).map(([name, properties]) => (
                         <MenuItem key={name} value={name}>{name}</MenuItem>
                     ))}
                 </TextField>
                 <TextField
-                    value={this.state.to}
-                    label="to"
+                    value={this.state.target}
+                    label="target"
                     onChange={this.handleChange}
-                    id="order-to"
+                    id="order-target"
                     select
-                    name = "to"
+                    name="target"
                 >
-                    { Object.entries(Global.TERRITORIES).map(([name,properties]) => (
+                    {Object.entries(Global.TERRITORIES).map(([name, properties]) => (
                         <MenuItem key={name} value={name}>{name}</MenuItem>
                     ))}
                 </TextField>
                 <TextField
-                    value = {this.state.num}
-                    label="Number"
+                    value={this.state.unitNum}
+                    label="unitNum"
                     onChange={this.handleChange}
-                    id="order-num"
-                    type = "number"
-                    name = "num"
-                    />
+                    id="order-unitNum"
+                    type="number"
+                    name="unitNum"
+                />
+                <TextField
+                    value={this.state.unitLevel}
+                    label="unitLevel"
+                    onChange={this.handleChange}
+                    id="order-unitLevel"
+                    type="number"
+                    name="unitLevel"
+                />
                 <Button type='submit'>Submit!</Button>
             </Box>
         );
     }
 }
 export {
-    UpgradeTerritory,
-    UpgradeUnit,
+    UpgradeTechOrder,
+    UpgradeUnitsOrder,
     Order
 }

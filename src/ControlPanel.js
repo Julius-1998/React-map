@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import board_image from './board_demo.jpg'
 import Global from './GlobalVariables';
-import { Order, UpgradeTerritory, UpgradeUnit } from './Upgrades';
+import { Order, UpgradeUnitsOrder, UpgradeTechOrder } from './Upgrades';
 import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { Map } from './RiskMap';
 import TerritoryDetail from './SimpleDialog';
@@ -27,6 +27,7 @@ class Message extends React.Component {
     }
     handleOrderMessage(message) {
         this.state.orderMessages.push(message);
+
         this.setState({ orderMessages: this.state.orderMessages });
     }
     handleUpgradeTerritoryMessage(message) {
@@ -36,22 +37,33 @@ class Message extends React.Component {
     handleUpgradeUnitMessage(message) {
         this.state.upgradeUnitMessages.push(message);
         this.setState({ upgradeUnitMessages: this.state.upgradeUnitMessages });
-        console.log(this.state);
     }
     handleServerMessage(json) {
         this.props.applyServerMessage(json);
     }
     sendMessage() {
+        // const request = {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //         order: this.state.orderMessages,
+        //         upgradeTerritory: this.state.upgradeTerritoryMessages,
+        //         upgradeUnit: this.state.upgradeUnitMessages
+        //     })
+        // };
+        // fetch('/testAPI', request)
+        //     .then(response => {
+        //         if (response.ok) {
+        //             response.json().then(json => {
+        //                 console.log(json);
+        //                 this.handleServerMessage(json)
+        //             });
+        //         }
+        //     });
         const request = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                order: this.state.orderMessages,
-                upgradeTerritory: this.state.upgradeTerritoryMessages,
-                upgradeUnit: this.state.upgradeUnitMessages
-            })
-        };
-        fetch('/testAPI', request)
+            method: 'GET',
+        }
+        fetch('/riskmap', request)
             .then(response => {
                 if (response.ok) {
                     response.json().then(json => {
@@ -65,18 +77,17 @@ class Message extends React.Component {
         this.setState({ upgradeUnitMessages: [] });
     }
     render() {
-        
+
         const messageDisplay =
-        this.state.orderMessages.map((message, index) => <p key={index} >{message}</p>) +
-        this.state.upgradeTerritoryMessages.map((message, index) => <p key={index} >{message}</p>) +
+            this.state.orderMessages.map((message, index) => <p key={index} >{message}</p>) +
+            this.state.upgradeTerritoryMessages.map((message, index) => <p key={index} >{message}</p>) +
             this.state.upgradeUnitMessages.map((message, index) => <p key={index} >{message}</p>);
-        console.log(messageDisplay);
-            return (
+        return (
             <>
 
                 <Order addMessage={(message) => { this.handleOrderMessage(message) }}></Order>
-                <UpgradeTerritory addMessage={(message) => { this.handleUpgradeTerritoryMessage(message) }}></UpgradeTerritory>
-                <UpgradeUnit addMessage={(message) => { this.handleUpgradeUnitMessage(message) }}></UpgradeUnit>
+                <UpgradeTechOrder addMessage={(message) => { this.handleUpgradeTerritoryMessage(message) }}></UpgradeTechOrder>
+                <UpgradeUnitsOrder addMessage={(message) => { this.handleUpgradeUnitMessage(message) }}></UpgradeUnitsOrder>
                 <Button onClick={this.sendMessage}>Commit Messages</Button>
             </>
         )
@@ -99,17 +110,12 @@ class SignInSide extends React.Component {
     constructor(props) {
         super(props);
         this.handleServerMessage = this.handleServerMessage.bind(this);
-        this.state ={
+        this.state = {
 
         }
     }
     handleServerMessage = (json) => {
-        console.log("before update");
-        console.log(Global.TERRITORIES);
-
         Global.TERRITORIES = json.territories;
-        console.log("after Update");
-        console.log(Global.TERRITORIES);
         this.setState(this.state);
     }
     render() {
