@@ -11,6 +11,9 @@ let Global = {
         "T7":{"ownerName":"T7Value","soldierNum":"T7Value2"},
         "T8":{"ownerName":"T8Value","soldierNum":"T8Value2"},
     },
+    PLAYER:{
+        
+    }
 }
 
 // class Territory{

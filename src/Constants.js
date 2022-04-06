@@ -5,8 +5,8 @@ const Constants ={
         "This is map 3"
     ],
     ACTION_NAMES :[
-        "move",
-        "attack"
+        "MoveOrder",
+        "AttackOrder"
     ],
 }
 export default Constants

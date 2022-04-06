@@ -117,7 +117,7 @@ class Order extends React.Component {
             unitNum: 0,
             unitLevel: 0,
             actionCategory:"",
-            
+            troop:{}
         }
     };
     handleChange = (event) => {
@@ -125,14 +125,17 @@ class Order extends React.Component {
         const name = event.target.name;
         const value = event.target.value.toString();
         this.setState({ [name]: value })
+        const unitLevel = this.state.unitLevel;
+        const unitNum = this.state.unitNum;
+        this.setState({troop:{[unitLevel]:unitNum}});
     }
+   
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log("Adding order!");
-        console.log(this.state);
-
-        this.props.addMessage(this.state);
+        const state = this.state;
+        const orderType = this.state.actionCategory;
+        this.props.addMessage({[orderType]:state});
     }
 
     render() {
