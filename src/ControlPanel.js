@@ -65,15 +65,15 @@ class Message extends React.Component {
         this.setState({ upgradeUnitMessages: [] });
     }
     render() {
+        
         const messageDisplay =
-            this.state.orderMessages.map((message, index) => <p key={index} >{message}</p>) +
-            this.state.upgradeTerritoryMessages.map((message, index) => <p key={index} >{message}</p>) +
+        this.state.orderMessages.map((message, index) => <p key={index} >{message}</p>) +
+        this.state.upgradeTerritoryMessages.map((message, index) => <p key={index} >{message}</p>) +
             this.state.upgradeUnitMessages.map((message, index) => <p key={index} >{message}</p>);
-        return (
+        console.log(messageDisplay);
+            return (
             <>
-                <div>
-                    {messageDisplay}
-                </div>
+
                 <Order addMessage={(message) => { this.handleOrderMessage(message) }}></Order>
                 <UpgradeTerritory addMessage={(message) => { this.handleUpgradeTerritoryMessage(message) }}></UpgradeTerritory>
                 <UpgradeUnit addMessage={(message) => { this.handleUpgradeUnitMessage(message) }}></UpgradeUnit>
@@ -83,7 +83,17 @@ class Message extends React.Component {
     }
 
 }
-
+// class MessageDisplay extends React.Component{
+//     constructor(props){
+//         super(props);
+//     }
+//     render(){
+//         console.log(this.props.meesage);
+//         return(
+//             this.props.message.map((value)=><p>{value}</p>)
+//         )
+//     }
+// }
 
 class SignInSide extends React.Component {
     constructor(props) {

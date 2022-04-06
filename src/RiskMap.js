@@ -10,25 +10,13 @@ class Territory extends React.Component{
         super(props)
     }
     render(){
-        console.log("rendering")
+        // console.log("rendering")
         return (
-            <>
-            {/* <p id = {"territory-"+this.props.name} className = "territory" >{this.props.name}{this.props.owner}</p> */}
             <TerritoryDetail buttonDisplayMessage= {this.props.name} 
                 textMessage = {JSON.stringify(this.props)}
             ></TerritoryDetail>
-            </>
         )
     }
-    // componentDidUpdate(prevProps) {
-    //     this.render()
-    //     // if(this.props!== prevProps) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
-    //     // {
-    //     //     console.log(this.props);
-    //     //     console.log(prevProps);
-    //     //     this.setState(this.state)
-    //     // }
-    // } 
 }
 
 class Map extends React.Component{
@@ -36,7 +24,7 @@ class Map extends React.Component{
         super(props)
     }
     render(){
-        console.log("map rendering");
+        // console.log("map rendering");
         return (
             Object.entries(Global.TERRITORIES).map(([name,properties])=>(
                 <Territory 
