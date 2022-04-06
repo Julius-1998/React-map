@@ -7,7 +7,6 @@ class SimpleDialog extends React.Component{
         super(props);
         this.state ={
             open: this.props.open,
-            message:this.props.message
             //TODO: parse the message and assemble them into readible text
         }
     }
@@ -15,7 +14,7 @@ class SimpleDialog extends React.Component{
         return (   
             <Dialog open={this.props.open} onClose = {this.props.onClose}>
               <DialogTitle>
-                  {this.state.message}
+                  {this.props.message}
               </DialogTitle>
             </Dialog>
         );
@@ -26,8 +25,6 @@ class TerritoryDetail extends React.Component{
         super(props);
         this.state = {
             dialogOpen :false,
-            textMessage:props.textMessage,
-            buttonDisplayMessage:props.buttonDisplayMessage
         }
         this.handleOpenDialog = this.handleOpenDialog.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -41,10 +38,10 @@ class TerritoryDetail extends React.Component{
     render(){
         return(
             <div>
-                <Button onClick={this.handleOpenDialog}>{this.state.buttonDisplayMessage}</Button>
+                <Button onClick={this.handleOpenDialog}>{this.props.buttonDisplayMessage}</Button>
                 <SimpleDialog open = {this.state.dialogOpen} 
                 onClose ={this.handleClose} 
-                message = {this.state.textMessage}>
+                message = {this.props.textMessage}>
                 </SimpleDialog>
             
             </div>

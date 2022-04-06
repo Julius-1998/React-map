@@ -8,39 +8,42 @@ import TerritoryDetail from './SimpleDialog';
 class Territory extends React.Component{
     constructor(props){
         super(props)
-        this.state ={
-            ownerName : "",
-            soldierNum : 0,
-            neighbours: [],
-        }
-        
     }
-    
     render(){
+        console.log("rendering")
         return (
             <>
-            <p id = {"territory-"+this.props.name} className = "territory" onClick={this.handleDisplay}>{this.props.name}{this.props.owner}</p>
+            {/* <p id = {"territory-"+this.props.name} className = "territory" >{this.props.name}{this.props.owner}</p> */}
             <TerritoryDetail buttonDisplayMessage= {this.props.name} 
-                textMessage = {JSON.stringify(this.state)}
+                textMessage = {JSON.stringify(this.props)}
             ></TerritoryDetail>
             </>
         )
     }
+    // componentDidUpdate(prevProps) {
+    //     this.render()
+    //     // if(this.props!== prevProps) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
+    //     // {
+    //     //     console.log(this.props);
+    //     //     console.log(prevProps);
+    //     //     this.setState(this.state)
+    //     // }
+    // } 
 }
 
 class Map extends React.Component{
     constructor(props){
         super(props)
-        this.state = {
-        }
     }
     render(){
-        console.log(Global.territories)
+        console.log("map rendering");
         return (
-            Object.entries(Global.territories).map(([name,properties])=>(
-                <Territory name = {name} 
-                    owner = {properties.owner}
-                    num = {properties.num}
+            Object.entries(Global.TERRITORIES).map(([name,properties])=>(
+                <Territory 
+                    key = {name}
+                    name = {name} 
+                    ownerName = {properties.ownerName}
+                    soldierNum = {properties.soldierNum}
                 />
             ))
         );

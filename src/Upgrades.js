@@ -36,7 +36,7 @@ class UpgradeTerritory extends React.Component {
                     select
                     onChange={this.handleChange}
                 >
-                    {Constants.TERRYTORY_NAMES.map((name) => (
+                    { Object.entries(Global.TERRITORIES).map(([name,properties]) => (
                         <MenuItem key={name} value={name}>{name}</MenuItem>
                     ))}
                 </TextField>
@@ -91,7 +91,7 @@ class UpgradeUnit extends React.Component {
                     select
                     onChange={this.handleChange}
                 >
-                    {Constants.TERRYTORY_NAMES.map((name) => (
+                    { Object.entries(Global.TERRITORIES).map(([name,properties]) => (
                         <MenuItem key={name} value={name}>{name}</MenuItem>
                     ))}
                 </TextField>
@@ -164,7 +164,7 @@ class Order extends React.Component {
                     select
                     name = "from"
                 >
-                    {Constants.TERRYTORY_NAMES.map((name) => (
+                    { Object.entries(Global.TERRITORIES).map(([name,properties]) => (
                         <MenuItem key={name} value={name}>{name}</MenuItem>
                     ))}
                 </TextField>
@@ -176,7 +176,7 @@ class Order extends React.Component {
                     select
                     name = "to"
                 >
-                    {Constants.TERRYTORY_NAMES.map((name) => (
+                    { Object.entries(Global.TERRITORIES).map(([name,properties]) => (
                         <MenuItem key={name} value={name}>{name}</MenuItem>
                     ))}
                 </TextField>
