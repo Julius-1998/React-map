@@ -1,56 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
-import board from './board_demo.jpg'
-import React from 'react';
-import ReactDOM from "react-dom";
-import Button from "@mui/material/Button";
-const territoryNames = [
-  "This is map 1",
-  "This is map 2",
-  "This is map 3"
-]
-
-class Board extends React.Component{
+import SignIn from "./Login";
+import Game from "./ControlPanel";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import React from "react";
+class App extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
-      image:board,
-      owners:["red","red","green"]
-    };
   }
-  renderTerritory(i){
-    return <Territory index={i} owner={this.state.owners[i]}/>;
-  }
-  render(){
-    return(
-      <div class = "container">
-        {/* <img id ="board_image" src = {this.state.image} alt = "Logo" /> */}
-          <div className = "territories">
-            {this.renderTerritory(0)}
-            {this.renderTerritory(1)}
-            {this.renderTerritory(2)}
-          </div>
-      </div>
-    )
-  }
-}
-class Territory extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      id: "territory-"+String(props.index),
-      name:territoryNames[props.index],
-      owner:props.owner
-    }
-  }
-  render(){
+  render() {
     return (
-      <div className = "territory" id = {this.state.id}>{this.state.name}owned by {this.state.owner}</div>
-    )
+      <>
+        {/* This is the alias of BrowserRouter i.e. Router */}
+        <BrowserRouter>
+          <Routes>
+            {/* This route is for home component 
+          with exact path "/", in component props 
+          we passes the imported component*/}
+            <Route exact path="/login" component={SignIn} />
+
+            {/* This route is for about component 
+          with exact path "/about", in component 
+          props we passes the imported component*/}
+            <Route path="/game" component={Game} />
+
+          </Routes>
+        </BrowserRouter>
+      </>
+    );
   }
+
 }
 
-
-// export default BasePicture;
-
-export default Board
+export default App;

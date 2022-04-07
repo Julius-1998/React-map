@@ -5,13 +5,14 @@ import Board from './App';
 import ControlPanelDemo from './ControlPanel';
 import reportWebVitals from './reportWebVitals';
 import SignInSide from './ControlPanel';
+import App from './App';
 
 // ReactDOM.render(
 //   <Board/>,
 //   document.getElementById('root')
 // );
 ReactDOM.render(
-  <SignInSide/>,
+  <App/>,
   document.getElementById('root')
 );
 

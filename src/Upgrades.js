@@ -145,9 +145,8 @@ class Order extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const state = this.state;
-        const orderType = this.state.actionCategory;
-        this.props.addMessage({[orderType]:state});
+   
+        this.props.addMessage(this.state);
     }
 
     render() {

@@ -10,7 +10,9 @@ import { Order, UpgradeUnitsOrder, UpgradeTechOrder } from './Upgrades';
 import { Button, Container, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { Map,Player } from './RiskMap';
 import { flushSync } from 'react-dom';
+import { ReactSession } from 'react-client-session';
 const theme = createTheme();
+ReactSession.setStoreType("localStorage");
 
 class Message extends React.Component {
     constructor(props) {
@@ -27,7 +29,6 @@ class Message extends React.Component {
     }
     handleOrderMessage(message) {
         this.state.orderMessages.push(message);
-
         this.setState({ orderMessages: this.state.orderMessages });
     }
     handleUpgradeTerritoryMessage(message) {
@@ -39,6 +40,23 @@ class Message extends React.Component {
         this.setState({ upgradeUnitMessages: this.state.upgradeUnitMessages });
     }
     handleServerMessage(json) {
+        if(json.status === "WAITING"){
+            //if is waiting, call /status periodically
+            setInterval(async () => {
+                const res = await fetch('/status');
+                const responseJson = await res.json();
+                if(responseJson.status === "COMPLETED"){
+                    //call gameupdate now
+                    clearInterval();
+                }
+              }, 10000);
+        }else if(json.status === "COMPLETED"){
+            //if is completed, call gameupdate
+        }
+
+        // this.props.applyServerMessage(json);
+    }
+    updateMapProps(json){
         this.props.applyServerMessage(json);
     }
     sendMessage() {
@@ -86,7 +104,7 @@ class Message extends React.Component {
     }
 
 }
-class SignInSide extends React.Component {
+class Game extends React.Component {
     constructor(props) {
         super(props);
         this.handleServerMessage = this.handleServerMessage.bind(this);
@@ -109,6 +127,8 @@ class SignInSide extends React.Component {
         this.setState({round:++this.state.round});
         console.log("printing global state");
         console.log(Global);
+        ReactSession.add("username",Global.USER_NAME);
+        ReactSession.get("username");
     }
     async fetchInitMessage(){
         const request = {
@@ -160,4 +180,4 @@ class SignInSide extends React.Component {
         );
     }
 }
-export default SignInSide
+export default Game
