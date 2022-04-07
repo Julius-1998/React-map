@@ -36,6 +36,9 @@ class UpgradeTechOrder extends React.Component {
                     id="upgrade-territory-targetLevel"
                     onChange={this.handleChange}
                     type="number"
+                    label = "targetLevel"
+                    style = {{width: 100}}
+                    required
                 />
                 <Button type="submit">submit!</Button>
             </Box>
@@ -48,7 +51,7 @@ class UpgradeUnitsOrder extends React.Component {
         this.state = {
             source: "",
             originalLevel: 0,
-            targetLevel: "",
+            targetLevel: 0,
             unitNum: 0
         }
     }
@@ -72,7 +75,10 @@ class UpgradeUnitsOrder extends React.Component {
                     name="source"
                     id="upgrade-unit-source"
                     select
+                    label = "source"
                     onChange={this.handleChange}
+                    style = {{width: 100}}
+                    required
                 >
                     {Object.entries(Global.TERRITORIES).map(([name, properties]) => (
                         <MenuItem key={name} value={name}>{name}</MenuItem>
@@ -84,6 +90,10 @@ class UpgradeUnitsOrder extends React.Component {
                     id="upgrade-unit-originalLevel"
                     onChange={this.handleChange}
                     type="number"
+                    lable = "originalLevel"
+                    labelId = "upgrade-unit-label-originalLevel"
+                    style = {{width: 100}}
+                    required
                 >
                 </TextField>
                 <TextField
@@ -92,6 +102,9 @@ class UpgradeUnitsOrder extends React.Component {
                     id="upgrade-unit-targetLevel"
                     onChange={this.handleChange}
                     type="number"
+                    label = "targetLevel"
+                    style = {{width: 100}}
+                    required
                 />
                 <TextField
                     value={this.state.unitNum}
@@ -99,6 +112,9 @@ class UpgradeUnitsOrder extends React.Component {
                     id="upgrade-unit-unitNum"
                     onChange={this.handleChange}
                     type="number"
+                    label = "unitNum"
+                    style = {{width: 100}}
+                    required
                 />
                 <Button type="submit">submit!</Button>
             </Box>
@@ -117,7 +133,6 @@ class Order extends React.Component {
             unitNum: 0,
             unitLevel: 0,
             actionCategory:"",
-            troop:{}
         }
     };
     handleChange = (event) => {
@@ -125,9 +140,6 @@ class Order extends React.Component {
         const name = event.target.name;
         const value = event.target.value.toString();
         this.setState({ [name]: value })
-        const unitLevel = this.state.unitLevel;
-        const unitNum = this.state.unitNum;
-        this.setState({troop:{[unitLevel]:unitNum}});
     }
    
 
@@ -148,6 +160,9 @@ class Order extends React.Component {
                     id="order-actionCategory"
                     select
                     name="actionCategory"
+                    style = {{width: 100}}
+                    required
+
                 >
                     {Constants.ACTION_NAMES.map((name) => (
                         <MenuItem key={name} value={name}>{name}</MenuItem>
@@ -160,6 +175,8 @@ class Order extends React.Component {
                     id="order-origin"
                     select
                     name="origin"
+                    style = {{width: 100}}
+                    required
                 >
                     {Object.entries(Global.TERRITORIES).map(([name, properties]) => (
                         <MenuItem key={name} value={name}>{name}</MenuItem>
@@ -172,6 +189,8 @@ class Order extends React.Component {
                     id="order-target"
                     select
                     name="target"
+                    style = {{width: 100}}
+                    required
                 >
                     {Object.entries(Global.TERRITORIES).map(([name, properties]) => (
                         <MenuItem key={name} value={name}>{name}</MenuItem>
@@ -184,6 +203,10 @@ class Order extends React.Component {
                     id="order-unitNum"
                     type="number"
                     name="unitNum"
+                    style = {{width: 100}}
+                    required
+                    InputProps={{ inputProps: { min: 0, max: 10 } }}
+
                 />
                 <TextField
                     value={this.state.unitLevel}
@@ -192,6 +215,10 @@ class Order extends React.Component {
                     id="order-unitLevel"
                     type="number"
                     name="unitLevel"
+                    style = {{width: 100}}
+                    required
+                    InputProps={{ inputProps: { min: 0, max: 10 } }}
+
                 />
                 <Button type='submit'>Submit!</Button>
             </Box>

@@ -7,9 +7,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import board_image from './board_demo.jpg'
 import Global from './GlobalVariables';
 import { Order, UpgradeUnitsOrder, UpgradeTechOrder } from './Upgrades';
-import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { Map } from './RiskMap';
-import TerritoryDetail from './SimpleDialog';
+import { Button, Container, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Map,Player } from './RiskMap';
+import { flushSync } from 'react-dom';
 const theme = createTheme();
 
 class Message extends React.Component {
@@ -42,28 +42,16 @@ class Message extends React.Component {
         this.props.applyServerMessage(json);
     }
     sendMessage() {
-        // const request = {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({
-        //         order: this.state.orderMessages,
-        //         upgradeTerritory: this.state.upgradeTerritoryMessages,
-        //         upgradeUnit: this.state.upgradeUnitMessages
-        //     })
-        // };
-        // fetch('/testAPI', request)
-        //     .then(response => {
-        //         if (response.ok) {
-        //             response.json().then(json => {
-        //                 console.log(json);
-        //                 this.handleServerMessage(json)
-        //             });
-        //         }
-        //     });
         const request = {
-            method: 'GET',
-        }
-        fetch('/riskmap', request)
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                order: this.state.orderMessages,
+                upgradeTerritory: this.state.upgradeTerritoryMessages,
+                upgradeUnit: this.state.upgradeUnitMessages
+            })
+        };
+        fetch('/submit', request)
             .then(response => {
                 if (response.ok) {
                     response.json().then(json => {
@@ -78,13 +66,17 @@ class Message extends React.Component {
     }
     render() {
 
-        const messageDisplay =
-            this.state.orderMessages.map((message, index) => <p key={index} >{message}</p>) +
-            this.state.upgradeTerritoryMessages.map((message, index) => <p key={index} >{message}</p>) +
-            this.state.upgradeUnitMessages.map((message, index) => <p key={index} >{message}</p>);
+        var JsonMessage  = JSON.stringify({
+            order: this.state.orderMessages,
+            UpgradeTechOrder: this.state.upgradeTerritoryMessages,
+            UpgradeUnitsOrder: this.state.upgradeUnitMessages
+        });
+        console.log(JsonMessage);
         return (
             <>
-
+                <Container sx = {{width:'30%'}}>
+                <Box sx={{ width: '30%' }}>{JsonMessage}</Box>
+                </Container>
                 <Order addMessage={(message) => { this.handleOrderMessage(message) }}></Order>
                 <UpgradeTechOrder addMessage={(message) => { this.handleUpgradeTerritoryMessage(message) }}></UpgradeTechOrder>
                 <UpgradeUnitsOrder addMessage={(message) => { this.handleUpgradeUnitMessage(message) }}></UpgradeUnitsOrder>
@@ -94,29 +86,37 @@ class Message extends React.Component {
     }
 
 }
-// class MessageDisplay extends React.Component{
-//     constructor(props){
-//         super(props);
-//     }
-//     render(){
-//         console.log(this.props.meesage);
-//         return(
-//             this.props.message.map((value)=><p>{value}</p>)
-//         )
-//     }
-// }
-
 class SignInSide extends React.Component {
     constructor(props) {
         super(props);
         this.handleServerMessage = this.handleServerMessage.bind(this);
+        this.fetchInitMessage();
         this.state = {
-
+            round:0
         }
+        
     }
     handleServerMessage = (json) => {
         Global.TERRITORIES = json.territories;
-        this.setState(this.state);
+        Global.PLAYERS = json.players;
+        this.setState({round:++this.state.round});
+    
+    }
+    handleInitMessage = (json) =>{
+        Global.TERRITORIES = json.riskMap.territories;
+        Global.PLAYERS = json.riskMap.players;
+        Global.USER_NAME = json.player;
+        this.setState({round:++this.state.round});
+        console.log("printing global state");
+        console.log(Global);
+    }
+    async fetchInitMessage(){
+        const request = {
+            method: 'GET',
+        }
+        let response = await fetch('/init', request);
+        let json =  await response.json()
+        this.handleInitMessage(json);
     }
     render() {
         console.log("render method is called");
@@ -139,6 +139,7 @@ class SignInSide extends React.Component {
                         }}
                     >
                         <Map></Map>
+                        
                     </Grid>
                     <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                         <Box
@@ -151,6 +152,7 @@ class SignInSide extends React.Component {
                             }}
                         >
                             <Message applyServerMessage={(message) => (this.handleServerMessage(message))}></Message>
+                            <Player></Player>
                         </Box>
                     </Grid>
                 </Grid>
