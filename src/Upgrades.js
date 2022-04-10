@@ -8,7 +8,7 @@ class UpgradeTechOrder extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            targetLevel: 0
+            targetLevel: 1
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -38,6 +38,7 @@ class UpgradeTechOrder extends React.Component {
                     type="number"
                     label = "targetLevel"
                     style = {{width: 100}}
+                    InputProps={{ inputProps: { min: 1, max: 6 } }}
                     required
                 />
                 <Button type="submit">submit!</Button>

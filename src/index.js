@@ -6,13 +6,14 @@ import ControlPanelDemo from './ControlPanel';
 import reportWebVitals from './reportWebVitals';
 import SignInSide from './ControlPanel';
 import App from './App';
+import Game from './ControlPanel';
 
 // ReactDOM.render(
 //   <Board/>,
 //   document.getElementById('root')
 // );
 ReactDOM.render(
-  <App/>,
+  <Game/>,
   document.getElementById('root')
 );
 

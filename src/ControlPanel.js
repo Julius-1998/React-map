@@ -8,11 +8,10 @@ import board_image from './board_demo.jpg'
 import Global from './GlobalVariables';
 import { Order, UpgradeUnitsOrder, UpgradeTechOrder } from './Upgrades';
 import { Button, Container, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { Map,Player } from './RiskMap';
+import { Map, Player } from './RiskMap';
 import { flushSync } from 'react-dom';
 import { ReactSession } from 'react-client-session';
 const theme = createTheme();
-ReactSession.setStoreType("localStorage");
 
 class Message extends React.Component {
     constructor(props) {
@@ -40,23 +39,36 @@ class Message extends React.Component {
         this.setState({ upgradeUnitMessages: this.state.upgradeUnitMessages });
     }
     handleServerMessage(json) {
-        if(json.status === "WAITING"){
-            //if is waiting, call /status periodically
-            setInterval(async () => {
-                const res = await fetch('/status');
-                const responseJson = await res.json();
-                if(responseJson.status === "COMPLETED"){
-                    //call gameupdate now
-                    clearInterval();
+        if (json.status === "WAITING") {
+            const fetchStatusInfo = async(id)=>{
+                console.log("status");
+                const statusRes = await fetch('/status');
+                const statusResJson = await statusRes.json();
+                if(statusResJson === "COMPLETED"){
+                    fetchMapInfo(id);
                 }
-              }, 10000);
-        }else if(json.status === "COMPLETED"){
-            //if is completed, call gameupdate
+            }
+            const fetchMapInfo = async(id)=>{
+                console.log("mapinfo");
+                const mapRes = await fetch('/gameupdate');
+                const mapResJson = await mapRes.json();
+                this.updateMapProps(mapResJson.riskMap);
+                clearInterval(id);
+            }
+            const id = setInterval(()=>{
+                fetchStatusInfo(id);
+            },10000);
+        } else if (json.status === "COMPLETED") {
+            fetch('/gameupdate', {method :'GET'})
+                .then(response=>response.json())
+                .then(data=>{this.updateMapProps(data.riskMap)});
+            
+            console.log("The status is completed now")
         }
-
-        // this.props.applyServerMessage(json);
-    }
-    updateMapProps(json){
+    }  
+    updateMapProps(json) {
+        console.log("----------------------update map");
+        console.log(json);
         this.props.applyServerMessage(json);
     }
     sendMessage() {
@@ -65,11 +77,11 @@ class Message extends React.Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 order: this.state.orderMessages,
-                upgradeTerritory: this.state.upgradeTerritoryMessages,
-                upgradeUnit: this.state.upgradeUnitMessages
+                UpgradeTechOrder: this.state.upgradeTerritoryMessages,
+                UpgradeUnitsOrder: this.state.upgradeUnitMessages
             })
         };
-        fetch('/submit', request)
+        fetch('/submit/' + Global.USER_NAME, request)
             .then(response => {
                 if (response.ok) {
                     response.json().then(json => {
@@ -84,7 +96,7 @@ class Message extends React.Component {
     }
     render() {
 
-        var JsonMessage  = JSON.stringify({
+        var JsonMessage = JSON.stringify({
             order: this.state.orderMessages,
             UpgradeTechOrder: this.state.upgradeTerritoryMessages,
             UpgradeUnitsOrder: this.state.upgradeUnitMessages
@@ -92,8 +104,8 @@ class Message extends React.Component {
         console.log(JsonMessage);
         return (
             <>
-                <Container sx = {{width:'30%'}}>
-                <Box sx={{ width: '30%' }}>{JsonMessage}</Box>
+                <Container sx={{ width: '30%' }}>
+                    <Box sx={{ width: '30%' }}>{JsonMessage}</Box>
                 </Container>
                 <Order addMessage={(message) => { this.handleOrderMessage(message) }}></Order>
                 <UpgradeTechOrder addMessage={(message) => { this.handleUpgradeTerritoryMessage(message) }}></UpgradeTechOrder>
@@ -110,36 +122,33 @@ class Game extends React.Component {
         this.handleServerMessage = this.handleServerMessage.bind(this);
         this.fetchInitMessage();
         this.state = {
-            round:0
+            round: 0
         }
-        
+        ReactSession.setStoreType("cookie");
     }
     handleServerMessage = (json) => {
         Global.TERRITORIES = json.territories;
         Global.PLAYERS = json.players;
-        this.setState({round:++this.state.round});
-    
+        this.setState({ round: ++this.state.round });
+        console.log("The server message is handled!")
+
     }
-    handleInitMessage = (json) =>{
+    handleInitMessage = (json) => {
         Global.TERRITORIES = json.riskMap.territories;
         Global.PLAYERS = json.riskMap.players;
         Global.USER_NAME = json.player;
-        this.setState({round:++this.state.round});
-        console.log("printing global state");
-        console.log(Global);
-        ReactSession.add("username",Global.USER_NAME);
-        ReactSession.get("username");
+        this.setState({ round: ++this.state.round });
+        ReactSession.add("username", Global.USER_NAME);
     }
-    async fetchInitMessage(){
+    async fetchInitMessage() {
         const request = {
             method: 'GET',
         }
         let response = await fetch('/init', request);
-        let json =  await response.json()
+        let json = await response.json()
         this.handleInitMessage(json);
     }
     render() {
-        console.log("render method is called");
         return (
             <ThemeProvider theme={theme}>
                 <Grid container component="main" sx={{ height: '100vh' }}>
@@ -159,7 +168,7 @@ class Game extends React.Component {
                         }}
                     >
                         <Map></Map>
-                        
+
                     </Grid>
                     <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                         <Box

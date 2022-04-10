@@ -32,7 +32,7 @@ class Map extends React.Component {
                     name={name}
                     ownerName={properties.ownerName}
                     neighbors={properties.neighbors}
-                    troops={properties.troops}
+                    troop={properties.troop}
                 />
             ))
         );
@@ -44,8 +44,6 @@ class Player extends React.Component {
     }
     render() {
             return (
-            
-
                 Object.entries(Global.PLAYERS).map(([name,properties])=>(
                     <div id={name+'player-display'}>
                         <p id = {name+'player-name'}>{name}</p>
