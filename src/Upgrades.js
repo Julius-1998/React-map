@@ -92,8 +92,8 @@ class UpgradeUnitsOrder extends React.Component {
                     onChange={this.handleChange}
                     type="number"
                     lable = "originalLevel"
-                    labelId = "upgrade-unit-label-originalLevel"
                     style = {{width: 100}}
+                    InputProps={{ inputProps: { min: 0, max: 6 } }}
                     required
                 >
                 </TextField>
@@ -105,6 +105,7 @@ class UpgradeUnitsOrder extends React.Component {
                     type="number"
                     label = "targetLevel"
                     style = {{width: 100}}
+                    InputProps={{ inputProps: { min: 0, max: 6 } }}
                     required
                 />
                 <TextField
@@ -115,6 +116,8 @@ class UpgradeUnitsOrder extends React.Component {
                     type="number"
                     label = "unitNum"
                     style = {{width: 100}}
+                    InputProps={{ inputProps: { min: 0, max: 100 } }}
+
                     required
                 />
                 <Button type="submit">submit!</Button>

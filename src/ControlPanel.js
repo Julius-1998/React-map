@@ -8,9 +8,10 @@ import board_image from './board_demo.jpg'
 import Global from './GlobalVariables';
 import { Order, UpgradeUnitsOrder, UpgradeTechOrder } from './Upgrades';
 import { Button, Container, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { Map, Player } from './RiskMap';
+import { Map, Player, UserInfo } from './RiskMap';
 import { flushSync } from 'react-dom';
 import { ReactSession } from 'react-client-session';
+import "./App.css";
 const theme = createTheme();
 
 class Message extends React.Component {
@@ -41,7 +42,6 @@ class Message extends React.Component {
     handleServerMessage(json) {
         if (json.status === "WAITING") {
             const fetchStatusInfo = async(id)=>{
-                console.log("status");
                 const statusRes = await fetch('/status');
                 const statusResJson = await statusRes.json();
                 if(statusResJson === "COMPLETED"){
@@ -52,7 +52,7 @@ class Message extends React.Component {
                 console.log("mapinfo");
                 const mapRes = await fetch('/gameupdate');
                 const mapResJson = await mapRes.json();
-                this.updateMapProps(mapResJson.riskMap);
+                this.updateMapProps(mapResJson);
                 clearInterval(id);
             }
             const id = setInterval(()=>{
@@ -61,15 +61,20 @@ class Message extends React.Component {
         } else if (json.status === "COMPLETED") {
             fetch('/gameupdate', {method :'GET'})
                 .then(response=>response.json())
-                .then(data=>{this.updateMapProps(data.riskMap)});
+                .then(data=>{this.updateMapProps(data)});
             
             console.log("The status is completed now")
+        } else if(json.status === "ERROR"){
+            alert("Error occured, no update will be excecuted!"+ json.errMessage);
         }
     }  
     updateMapProps(json) {
         console.log("----------------------update map");
         console.log(json);
-        this.props.applyServerMessage(json);
+        if(json.status === "ERROR"){
+            alert("Error occured, no update will be excecuted!" + json.errMessage);
+        }
+        this.props.applyServerMessage(json.riskMap);
     }
     sendMessage() {
         const request = {
@@ -130,7 +135,6 @@ class Game extends React.Component {
         Global.TERRITORIES = json.territories;
         Global.PLAYERS = json.players;
         this.setState({ round: ++this.state.round });
-        console.log("The server message is handled!")
 
     }
     handleInitMessage = (json) => {
@@ -138,14 +142,13 @@ class Game extends React.Component {
         Global.PLAYERS = json.riskMap.players;
         Global.USER_NAME = json.player;
         this.setState({ round: ++this.state.round });
-        ReactSession.add("username", Global.USER_NAME);
     }
     async fetchInitMessage() {
         const request = {
             method: 'GET',
         }
-        let response = await fetch('/init', request);
-        let json = await response.json()
+        const response = await fetch('/init', request);
+        const json = await response.json()
         this.handleInitMessage(json);
     }
     render() {
@@ -182,6 +185,7 @@ class Game extends React.Component {
                         >
                             <Message applyServerMessage={(message) => (this.handleServerMessage(message))}></Message>
                             <Player></Player>
+                            <UserInfo></UserInfo>
                         </Box>
                     </Grid>
                 </Grid>

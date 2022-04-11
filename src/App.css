@@ -40,43 +40,40 @@
 
 
 #territory-T0 {
-  top: 100px;
-  left: 50px;
+  top: 10%;
+  left: 10%;
 }
 #territory-T1 {
-  top: 50px;
-  left: 300px;
+  top: 40%;
+  left: 40%;
 }
 #territory-T2 {
-  top: 0px;
-  left: 420px;
+  top: 60%;
+  left: 40%;
 }
 #territory-T3 {
-  top: 50px;
-  left: 450px;
+  top: 50%;
+  left: -30%;
 }
 #territory-T4 {
-  top: 250px;
-  left: 50px;
+  top: 50%;
+  left: -20%;
 }
 #territory-T5 {
-  top: 200px;
-  left: 200px;
+  top: 10%;
+  left: -15%;
 }
 #territory-T6 {
-  top: 50px;
-  left: 450px;
+  top: 20%;
+  left: 0%;
 }
 #territory-T7 {
-  top: 250px;
-  left: 300px;
+  top: 10%;
+  left: -10%;
 }
 #territory-T8 {
-  top: 100px;
-  left: 500px;
+  top: 70%;
+  left: -40%;
 }
-.territory{
-  position: relative;
-  width: 10%;
-}
+
 

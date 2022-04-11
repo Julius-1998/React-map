@@ -37,14 +37,15 @@ class TerritoryDetail extends React.Component{
     }
     render(){
         return(
-            <div>
-                <Button onClick={this.handleOpenDialog}>{this.props.buttonDisplayMessage}</Button>
+            <>
+                <Button onClick={this.handleOpenDialog} style={{backgroundColor:this.props.color,color:"white"}} id = {this.props.id}>
+                    {this.props.buttonDisplayMessage}</Button>
                 <SimpleDialog open = {this.state.dialogOpen} 
                 onClose ={this.handleClose} 
                 message = {this.props.textMessage}>
                 </SimpleDialog>
             
-            </div>
+            </>
         )
     }
 };
