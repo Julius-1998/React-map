@@ -57,7 +57,7 @@ class Message extends React.Component {
             }
             const id = setInterval(()=>{
                 fetchStatusInfo(id);
-            },10000);
+            },1000);
         } else if (json.status === "COMPLETED") {
             fetch('/gameupdate', {method :'GET'})
                 .then(response=>response.json())
@@ -66,6 +66,8 @@ class Message extends React.Component {
             console.log("The status is completed now")
         } else if(json.status === "ERROR"){
             alert("Error occured, no update will be excecuted!"+ json.errMessage);
+        } else if(json.status === "GAMEOVER"){
+            alert("Game is over, winner is"+json.winner);
         }
     }  
     updateMapProps(json) {
@@ -73,6 +75,8 @@ class Message extends React.Component {
         console.log(json);
         if(json.status === "ERROR"){
             alert("Error occured, no update will be excecuted!" + json.errMessage);
+        }else if(json.status === "GAMEOVER"){
+            alert("Game is over, winner is"+json.winner);
         }
         this.props.applyServerMessage(json.riskMap);
     }
