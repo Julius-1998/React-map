@@ -1,19 +1,30 @@
 let Global = {
     USER_NAME : "DEFAULT USER NAME",
     TERRITORIES:{
-        "T0":{"ownerName":"testModify","soldierNum":"T0Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
-        "T1":{"ownerName":"T1Value","soldierNum":"T1Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
-        "T2":{"ownerName":"T2Value","soldierNum":"T2Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
-        "T3":{"ownerName":"T3Value","soldierNum":"T3Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
-        "T4":{"ownerName":"T4Value","soldierNum":"T4Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
-        "T5":{"ownerName":"T5Value","soldierNum":"T5Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
-        "T6":{"ownerName":"T6Value","soldierNum":"T6Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
-        "T7":{"ownerName":"T7Value","soldierNum":"T7Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
-        "T8":{"ownerName":"T8Value","soldierNum":"T8Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
+        "Scadrial":{"ownerName":"testModify","soldierNum":"T0Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
+        "Roshar":{"ownerName":"T1Value","soldierNum":"T1Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
+        "Hogwarts":{"ownerName":"T2Value","soldierNum":"T2Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
+        "Mordor":{"ownerName":"T3Value","soldierNum":"T3Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
+        "Oz":{"ownerName":"T4Value","soldierNum":"T4Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
+        "Midkemia":{"ownerName":"T5Value","soldierNum":"T5Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
+        "Elastris":{"ownerName":"T6Value","soldierNum":"T6Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
+        "Narnia":{"ownerName":"T7Value","soldierNum":"T7Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
+        "Gondor":{"ownerName":"T8Value","soldierNum":"T8Value2","neighbors":[],"troop":{"units":{"ZERO":0,"ONE":1}}},
     },
     PLAYERS:{
         "Player1":{"clientId":"ClientId",foodPoints:0,techPoints:null,techLevel:""},
         "Player2":{"clientId":"",foodPoints:"",techPoints:"",techLevel:""},
+    },
+    HEXAGONS:{
+        "Scadrial":{"q":0,"r":0,"s":0},
+        "Roshar":{"q":0,"r":1,"s":-1},
+        "Hogwarts":{"q":1,"r":0,"s":-1},
+        "Mordor":{"q":1,"r":-1,"s":0},
+        "Oz":{"q":0,"r":-1,"s":1},
+        "Midkemia":{"q":-1,"r":0,"s":1},
+        "Elastris":{"q":-1,"r":1,"s":0},
+        "Narnia":{"q":-2,"r":1,"s":1},
+        "Gondor":{"q":1,"r":-2,"s":1}
     }
 }
 

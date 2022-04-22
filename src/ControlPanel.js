@@ -12,6 +12,7 @@ import { Map, Player, UserInfo } from './RiskMap';
 import { flushSync } from 'react-dom';
 import { ReactSession } from 'react-client-session';
 import "./App.css";
+import HexMap from './HexMap';
 const theme = createTheme();
 
 class Message extends React.Component {
@@ -166,15 +167,15 @@ class Game extends React.Component {
                         sm={4}
                         md={7}
                         sx={{
-                            backgroundImage: `url(${board_image})`,
-                            backgroundRepeat: 'no-repeat',
-                            backgroundColor: (t) =>
-                                t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
+                            // backgroundImage: `url(${board_image})`,
+                            // backgroundRepeat: 'no-repeat',
+                            // backgroundColor: (t) =>
+                                // t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                            // backgroundSize: 'cover',
+                            // backgroundPosition: 'center',
                         }}
                     >
-                        <Map></Map>
+                        <HexMap></HexMap>
 
                     </Grid>
                     <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>

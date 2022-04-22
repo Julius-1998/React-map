@@ -7,12 +7,14 @@ import reportWebVitals from './reportWebVitals';
 import SignInSide from './ControlPanel';
 import App from './App';
 import Game from './ControlPanel';
+import HexMap from './HexMap';
 
 // ReactDOM.render(
 //   <Board/>,
 //   document.getElementById('root')
 // );
 ReactDOM.render(
+  // <Game/>,
   <Game/>,
   document.getElementById('root')
 );

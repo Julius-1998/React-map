@@ -1,7 +1,6 @@
 import Global from './GlobalVariables';
 import * as React from 'react';
 import Button from '@mui/material/Button';
-
 import { Dialog, DialogTitle } from '@mui/material';
 import TerritoryDetail from './SimpleDialog';
 
@@ -35,8 +34,7 @@ class Map extends React.Component {
                     ownerName={properties.ownerName}
                     neighbors={properties.neighbors}
                     troop={properties.troop}
-                    id = {"territory-T"+index}
-                    
+                    id = {"territory-T"+index}   
                 />
             ))
         );

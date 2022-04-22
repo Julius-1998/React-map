@@ -38,42 +38,62 @@
   }
 }
 
+body {
+  margin: 0;
+  padding: 1em;
+  font-family: sans-serif;
+  background: #f0f0f0;
+}
 
-#territory-T0 {
-  top: 10%;
-  left: 10%;
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -moz-user-drag: element;
+  -webkit-user-drag: element;
+  -khtml-user-drag: element;
+  user-drag: element;
 }
-#territory-T1 {
-  top: 40%;
-  left: 40%;
+
+svg {
+
 }
-#territory-T2 {
-  top: 60%;
-  left: 40%;
+svg g g.hexagon-group.green{
+  fill: green;
+  fill-opacity: 0.6;
 }
-#territory-T3 {
-  top: 50%;
-  left: -30%;
+
+svg g g.hexagon-group.red{
+  fill: red;
+  fill-opacity: 0.6;
 }
-#territory-T4 {
-  top: 50%;
-  left: -20%;
+svg g g.hexagon-group:hover {
+  fill-opacity: 1;
 }
-#territory-T5 {
-  top: 10%;
-  left: -15%;
+svg g:hover text {
+  fill-opacity: 1;
 }
-#territory-T6 {
-  top: 20%;
-  left: 0%;
+
+svg g polygon {
+  stroke: #3F51B5;
+  stroke-width: 0.2;
+  transition: fill-opacity .2s;
 }
-#territory-T7 {
-  top: 10%;
-  left: -10%;
+
+svg g text {
+  font-size: 0.3em;
+  fill: #FFFFFF;
+  fill-opacity: 0.4;
+  transition: fill-opacity .2s;
 }
-#territory-T8 {
-  top: 70%;
-  left: -40%;
+svg path {
+  fill: none;
+  stroke: hsl(60, 20%, 70%);
+  stroke-width: 0.4em;
+  stroke-opacity: 0.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 
