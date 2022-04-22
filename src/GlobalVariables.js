@@ -25,7 +25,8 @@ let Global = {
         "Elastris":{"q":-1,"r":1,"s":0},
         "Narnia":{"q":-2,"r":1,"s":1},
         "Gondor":{"q":1,"r":-2,"s":1}
-    }
+    },
+    LEVELMAP:['ZERO','ONE','TWO','THREE','FOUR','FIVE','SIX','SEVEN']
 }
 
 // class Territory{
