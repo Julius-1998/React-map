@@ -18,7 +18,7 @@ class TerritoryDisplay extends React.Component{
         );
         return (
             <Box>
-                <Typography align="center" >Owner:{properties["ownerName"]}</Typography>
+                <Typography align="center">Owner:{properties["ownerName"]}</Typography>
                 {troops}
                 <Typography align='center'>Size:{properties["foodPointsCost"]}</Typography>
                 <Typography align='center'>Food Points Per Turn:{properties["foodPointsPerTurn"]}</Typography>

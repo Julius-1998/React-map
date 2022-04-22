@@ -1,38 +1,56 @@
-import SignIn from "./Login";
-import Game from "./ControlPanel";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Redirect,
-} from "react-router-dom";
-import React from "react";
-class App extends React.Component {
-  constructor(props){
-    super(props);
-  }
-  render() {
+import './App.css';
+import {Box, Grid, Paper, SelectChangeEvent, styled} from "@mui/material";
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+import React, {useState} from "react";
+import ControlPanel from "./control/ControlPanel";
+import HexMap from './HexMap';
+import Global from './GlobalVariables';
+const App = () => {
+    // commit request is a list of orders
+    const [commitRequest, setCommitRequest] = useState([]);
+    const Item = styled(Paper)(({theme}) => ({
+        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#FFFFFF',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    }));
+    const addOrder = (order) => {
+        setCommitRequest([...commitRequest, order]);
+        console.log(commitRequest);
+    }
     return (
-      <>
-        {/* This is the alias of BrowserRouter i.e. Router */}
-        <BrowserRouter>
-          <Routes>
-            {/* This route is for home component 
-          with exact path "/", in component props 
-          we passes the imported component*/}
-            <Route exact path="/login" component={SignIn} />
-
-            {/* This route is for about component 
-          with exact path "/about", in component 
-          props we passes the imported component*/}
-            <Route path="/game" component={Game} />
-
-          </Routes>
-        </BrowserRouter>
-      </>
+        <Box sx={{flexGrow: 1}}>
+            <Grid container spacing={2}>
+                <Grid item xs={3}>
+                    <Item>
+                        <FastfoodIcon/>
+                        =3
+                    </Item>
+                </Grid>
+                <Grid item xs={3}>
+                    <Item>
+                        <FastfoodIcon/>
+                        {Global.PLAYERS[Global.USER_NAME]!=null?Global.PLAYERS[Global.USER_NAME].foodPoints:0}
+                    </Item>
+                </Grid>
+                <Grid item xs={3}>
+                    <Item>xs=3</Item>
+                </Grid>
+                <Grid item xs={3}>
+                    <Item>xs=3</Item>
+                </Grid>
+                <Grid item xs={8}>
+                    <HexMap></HexMap>
+                </Grid>
+                <Grid item xs={4}>
+                    <Box>
+                        <ControlPanel onSaveOrder={addOrder}/>
+                    </Box>
+                </Grid>
+            </Grid>
+        </Box>
     );
-  }
-
 }
 
 export default App;

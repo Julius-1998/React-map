@@ -8,6 +8,7 @@ import SignInSide from './ControlPanel';
 import App from './App';
 import Game from './ControlPanel';
 import HexMap from './HexMap';
+import NavBar from './App';
 
 // ReactDOM.render(
 //   <Board/>,
@@ -15,7 +16,7 @@ import HexMap from './HexMap';
 // );
 ReactDOM.render(
   // <Game/>,
-  <Game/>,
+  <App/>,
   document.getElementById('root')
 );
 
