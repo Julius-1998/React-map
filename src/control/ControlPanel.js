@@ -1,22 +1,59 @@
-import {Box, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
+import {Box, FormControl, Grid, InputLabel, MenuItem, Select } from "@mui/material";
 import React from "react";
 import AttackOrderForm from "../order/AttackOrderForm";
-import {Folder} from "@mui/icons-material";
+import TechUpgradOrderForm from "../order/TechUpgradOrderForm";
+import UnitsUpgradeOrderForm from "../order/UnitsUpgradeOrderForm";
+import MoveOrderForm from "../order/MoveOrderForm";
+import NuclearWeaponOrderForm from "../order/NuclearWeaponOrderForm";
+import PoissonOrderForm from "../order/PoissonOrderForm";
+import BurnFoodOrderForm from "../order/BurnFoodOrderForm";
+import DegenerateOrder from "../order/DegenerateOrder";
+
 
 
 const ControlPanel = (props) => {
 
     const [orderType, setOrderType] = React.useState(-1);
-    const handleSelection = (event: SelectChangeEvent) => {
+    const handleSelection = (event) => {
         setOrderType(event.target.value);
     };
     const addOrder = (order) => {
         props.onSaveOrder(order);
         setOrderType(-1);
     }
+    let orderComponent = null;
+    switch (orderType) {
+        case -1:
+            orderComponent = null;
+            break;
+        case 1:
+            orderComponent = <TechUpgradOrderForm onSaveOrder={addOrder}/>;
+            break;
+        case 2:
+            orderComponent = <UnitsUpgradeOrderForm onSaveOrder={addOrder}/>;
+            break;
+        case 3:
+            orderComponent = <AttackOrderForm onSaveOrder={addOrder}/>;
+            break;
+        case 4:
+            orderComponent = <MoveOrderForm onSaveOrder={addOrder}/>;
+            break;
+        case 5:
+            orderComponent = <NuclearWeaponOrderForm onSaveOrder={addOrder}/>;
+            break;
+        case 6:
+            orderComponent = <PoissonOrderForm onSaveOrder={addOrder}/>;
+            break;
+        case 7:
+            orderComponent = <BurnFoodOrderForm onSaveOrder={addOrder}/>;
+            break;
+        case 8:
+            orderComponent = <DegenerateOrder onSaveOrder={addOrder}/>;
+            break;
+    }
     return (
-        <div>
-            <p>Create your orders here!</p>
+        <section>
+            <h3>Create your orders here!</h3>
             <Box m={1}>
                 <FormControl fullWidth>
                     <InputLabel id={"order-type-prompt-label"}>Order Type</InputLabel>
@@ -39,9 +76,9 @@ const ControlPanel = (props) => {
                 </FormControl>
             </Box>
             <Box m={1}>
-                {orderType === 3 ? <AttackOrderForm onSaveOrder={addOrder}/> : null }
+                {orderComponent}
             </Box>
-        </div>
+        </section>
     );
 };
 

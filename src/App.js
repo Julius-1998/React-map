@@ -3,8 +3,9 @@ import {Box, Grid, Paper, SelectChangeEvent, styled} from "@mui/material";
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import React, {useState} from "react";
 import ControlPanel from "./control/ControlPanel";
-import HexMap from './HexMap';
+// import HexMap from './HexMap';
 import Global from './GlobalVariables';
+
 const App = () => {
     // commit request is a list of orders
     const [commitRequest, setCommitRequest] = useState([]);
@@ -19,6 +20,11 @@ const App = () => {
         setCommitRequest([...commitRequest, order]);
         console.log(commitRequest);
     }
+    const renderedOrders = commitRequest.map((order)=>(
+        <article>
+            <p>{JSON.stringify(order)}</p>
+        </article>
+    ))
     return (
         <Box sx={{flexGrow: 1}}>
             <Grid container spacing={2}>
@@ -41,11 +47,16 @@ const App = () => {
                     <Item>xs=3</Item>
                 </Grid>
                 <Grid item xs={8}>
-                    <HexMap></HexMap>
                 </Grid>
                 <Grid item xs={4}>
                     <Box>
-                        <ControlPanel onSaveOrder={addOrder}/>
+                        <React.Fragment>
+                            <ControlPanel onSaveOrder={addOrder}/>
+                            <section>
+                                <h3>Created Orders!</h3>
+                                {renderedOrders}
+                            </section>
+                        </React.Fragment>
                     </Box>
                 </Grid>
             </Grid>
