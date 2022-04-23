@@ -72,7 +72,7 @@ const ControlPanel = (props) => {
                         <MenuItem value={3}>Attack Order</MenuItem>
                         <MenuItem value={4}>Move Order</MenuItem>
                         <MenuItem value={5}>Nuclear Bomb Order</MenuItem>
-                        <MenuItem value={6}>Poisson Order</MenuItem>
+                        <MenuItem value={6}>Poison Order</MenuItem>
                         <MenuItem value={7}>Burn Food Order</MenuItem>
                         <MenuItem value={8}>Degenerate Order</MenuItem>
                     </Select>

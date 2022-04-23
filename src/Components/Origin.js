@@ -1,5 +1,5 @@
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-
+import Global from "../GlobalVariables";
 const {useState} = require("react");
 
 const Origin = (props) => {
@@ -14,8 +14,8 @@ const Origin = (props) => {
         <FormControl fullWidth>
             <InputLabel id={"order-origin-prompt-label"}>Origin</InputLabel>
             <Select labelId={"order-origin-prompt-label"} id={"order-origin-selection"} value={origin} label={"order-origin"} onChange={handleChange}>
-                <MenuItem value={"Scadrial"}>Scadrial</MenuItem>
-                <MenuItem value={"Origin Territory 2"}>Origin Territory 2</MenuItem>
+                {Object.entries(Global.TERRITORIES).map(([name,properties])=><MenuItem value = {name}>{name}</MenuItem>)}
+               
             </Select>
         </FormControl>
     );

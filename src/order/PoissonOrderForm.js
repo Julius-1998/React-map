@@ -11,11 +11,11 @@ const PoissonOrderForm = (props) => {
         setHasTarget(true);
     }
     const onSaveOrder = () => {
-        const poissonOrder = {
-            type: "PoissonOrder",
+        const poisonOrder = {
+            type: "PoisonOrder",
             target: target
         }
-        props.onSaveOrder(poissonOrder);
+        props.onSaveOrder(poisonOrder);
     }
 
     return (

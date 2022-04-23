@@ -11,13 +11,12 @@ import RiskPage from './RiskPage';
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.handleServerMessage = this.handleServerMessage.bind(this);
         this.fetchInitMessage();
         this.state = {
             round: 0
         }
     }
-    handleServerMessage = (json) => {
+    updateMap = (json) => {
         Global.TERRITORIES = json.territories;
         Global.PLAYERS = json.players;
         this.setState({ round: ++this.state.round });
@@ -52,7 +51,7 @@ class App extends React.Component {
             "UpgradeUnitsOrder": [],
             "BurnFoodOrder": [],
             "DegenerateOrder": [],
-            "PoissonOrder": [],
+            "PoisonOrder": [],
             "NuclearBombOrder": []
         }
         for (var i = 0; i < commitRequest.length; i++) {
@@ -63,19 +62,19 @@ class App extends React.Component {
                         orders["order"].push({
                             "origin": c.origin,
                             "target": c.target,
-                            "unitNum": c.units[unitIndex].level,
-                            "unitLevel": c.units[unitIndex].num,
+                            "unitNum": c.units[unitIndex].num,
+                            "unitLevel": c.units[unitIndex].level,
                             "actionCategory": c.type
                         })
                     }
                     break;
-                case("AttackOrder"):
+                case ("AttackOrder"):
                     for (var unitIndex = 0; unitIndex < c.units.length; unitIndex++) {
                         orders["order"].push({
                             "origin": c.origin,
                             "target": c.target,
-                            "unitNum": c.units[unitIndex].level,
-                            "unitLevel": c.units[unitIndex].num,
+                            "unitNum": c.units[unitIndex].num,
+                            "unitLevel": c.units[unitIndex].level,
                             "actionCategory": c.type
                         })
                     }
@@ -85,53 +84,100 @@ class App extends React.Component {
                         "targetLevel": commitRequest[i].targetLevel
                     })
                     break;
-                case("UnitsUpgradeOrder"):
+                case ("UnitsUpgradeOrder"):
                     orders["UpgradeUnitsOrder"].push({
-                        "source":c.source,
-                        "originalLevel":c.originalLevel,
-                        "targetLevel":c.targetLevel,
-                        "unitNum":c.unitNum
+                        "source": c.source,
+                        "originalLevel": c.originalLevel,
+                        "targetLevel": c.targetLevel,
+                        "unitNum": c.unitNum
                     })
-                    break;    
-                case("BurnFoodOrder"):
+                    break;
+                case ("BurnFoodOrder"):
                     orders["BurnFoodOrder"].push({
 
                     })
                     break;
-                case("PoissonOrder"):
-                    orders["PoissonOrder"].push({
-                        target:c.target
+                case ("PoisonOrder"):
+                    orders["PoisonOrder"].push({
+                        target: c.target
                     })
                     break;
-                case("DegenerateOrder"):
+                case ("DegenerateOrder"):
                     orders["DegenerateOrder"].push({
 
                     })
                     break;
-                case("NuclearWeaponOrder"):
+                case ("NuclearWeaponOrder"):
                     orders["NuclearBombOrder"].push({
-                        target:c.target
+                        target: c.target
                     })
                     break;
 
-                
+
 
 
 
             }
         }
+        console.log("sending message to server")
         console.log(orders);
-        // const request = {
-        //     method:'POST',
-        //     headers:{'Content-Type':'application/json'},
-        //     body:JSON.stringify(
-        //         order:
-        //         UpgradeTechOrder:
-        //         UpgradeUnitsOrder:
+        const request = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(
+                orders
+            )
+        };
+        fetch('/submit/' + Global.USER_NAME, request)
+            .then(response => {
+                if (response.ok) {
+                    response.json().then(json => {
+                        console.log(json);
+                        this.handleServerMessage(json)
+                    });
+                }
+            });
+    }
+    handleServerMessage(json) {
+        if (json.status === "WAITING") {
+            const fetchStatusInfo = async (id) => {
+                const statusRes = await fetch('/status');
+                const statusResJson = await statusRes.json();
+                if (statusResJson === "COMPLETED") {
+                    fetchMapInfo(id);
+                }
+            }
+            const fetchMapInfo = async (id) => {
+                console.log("mapinfo");
+                const mapRes = await fetch('/gameupdate');
+                const mapResJson = await mapRes.json();
+                this.updateMapProps(mapResJson);
+                clearInterval(id);
+            }
+            const id = setInterval(() => {
+                fetchStatusInfo(id);
+            }, 1000);
+        } else if (json.status === "COMPLETED") {
+            fetch('/gameupdate', { method: 'GET' })
+                .then(response => response.json())
+                .then(data => { this.updateMapProps(data) });
 
-        //     )
-        // };
-        // fetch('/submit')
+            console.log("The status is completed now")
+        } else if (json.status === "ERROR") {
+            alert("Error occured, no update will be excecuted!" + json.errMessage);
+        } else if (json.status === "GAMEOVER") {
+            alert("Game is over, winner is" + json.winner);
+        }
+    }
+    updateMapProps(json) {
+        console.log("----------------------update map");
+        console.log(json);
+        if (json.status === "ERROR") {
+            alert("Error occured, no update will be excecuted!" + json.errMessage);
+        } else if (json.status === "GAMEOVER") {
+            alert("Game is over, winner is" + json.winner);
+        }
+        this.updateMap(json.riskMap);
     }
 
 }
