@@ -13,20 +13,34 @@ const updateRiskMap =(order)=>{
     console.log(order)
     switch(order.type){
         case'AttackOrder':
-            console.log(order)
             order.units.map((singleOrder)=>(
                 updateUnit(order.origin,singleOrder.level,- parseInt(singleOrder.num,10))
             ))
+            break;
         case'MoveOrder':
-        
+            order.units.map((singleOrder)=>(
+                updateUnit(order.origin,singleOrder.level, - parseInt(singleOrder.num,10))
+            ))
+            order.units.map((singleOrder)=>(
+                updateUnit(order.target,singleOrder.level, parseInt(singleOrder.num,10))
+            ))
+            break;
+        case'TechUpgradeOrder':
+            Global.PLAYERS[Global.USER_NAME]["techLevel"] = Global.LEVELMAP[parseInt(order.targetLevel)]
+            break;
+        case'UnitsUpgradeOrder':
+            updateUnit(order.source,order.originalLevel,-parseInt(order.unitNum))
+            updateUnit(order.source,order.targetLevel,parseInt(order.unitNum))
+            break;
     }
     // console.log("end updaing map")
 }
 const updateUnit = (territoryName, unitLevel,variation) =>{
+    
     Global.TERRITORIES[territoryName]["troop"]["units"][Global.LEVELMAP[unitLevel]] += variation;
 
 }
-const RiskPage = () => {
+const RiskPage = (props) => {
     // commit request is a list of orders
     const [commitRequest, setCommitRequest] = useState([]);
     const Item = styled(Paper)(({theme}) => ({
@@ -36,11 +50,21 @@ const RiskPage = () => {
         textAlign: 'center',
         color: theme.palette.text.secondary,
     }));
+    const onSubmitRequest = () => {
+        props.onSubmitRequest(commitRequest);
+        setCommitRequest([])
+    }
     const addOrder = (order) => {
         setCommitRequest([...commitRequest, order]);
         updateRiskMap(order);
         // console.log(commitRequest);
     }
+    const renderedOrders = commitRequest.map((order)=>(
+        <article>
+            <p>{JSON.stringify(order)}</p>
+        </article>
+    ))
+
     return (
         <Box sx={{flexGrow: 1}}>
             <Grid container spacing={2}>
@@ -72,9 +96,13 @@ const RiskPage = () => {
                     <HexMap></HexMap>
                 </Grid>
                 <Grid item xs={4}>
-                    <Box>
-                        <ControlPanel onSaveOrder={addOrder}/>
-                    </Box>
+                    <React.Fragment>
+                        <ControlPanel onSaveOrder={addOrder} onSubmitRequest={onSubmitRequest}/>
+                        <section>
+                            <h3>Created Orders!</h3>
+                            {renderedOrders}
+                        </section>
+                    </React.Fragment>
                 </Grid>
             </Grid>
         </Box>

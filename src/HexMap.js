@@ -40,9 +40,6 @@ class HexMap extends Component {
         this.setState({territoryName:name})
     }
     render() {
-        console.log("rendering")
-        console.log(Global.TERRITORIES)
-        console.log(Global.HEXAGONS)
         return (
 
             <div className="RiskMap">
@@ -51,7 +48,7 @@ class HexMap extends Component {
                         {
                             Object.entries(Global.TERRITORIES).map(([name, properties], index) =>
                              (
-                                //  console.log(Global.HEXAGONS[name])
+                               
                              <Hexagon className={properties["ownerName"]}
                                 q={Global.HEXAGONS[name]["q"]}
                                 r={Global.HEXAGONS[name]["r"]}

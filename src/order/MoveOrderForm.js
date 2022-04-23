@@ -1,10 +1,10 @@
-import {Button} from "@mui/material";
 import React, {useState} from "react";
 import Origin from "../Components/Origin";
 import Units from "../Components/Units";
 import Target from "../Components/Target";
+import {Button} from "@mui/material";
 
-const AttackOrderForm = (props) => {
+const MoveOrderForm = (props) => {
     const [origin, setOrigin] = useState("");
     const [hasOrigin, setHasOrigin] = useState(false);
     const [target, setTarget] = useState("");
@@ -29,13 +29,13 @@ const AttackOrderForm = (props) => {
         setHasTarget(true);
     }
     const onSaveOrder = () => {
-        const attackOrder = {
-            type: "AttackOrder",
+        const moveOrder = {
+            type: "MoveOrder",
             origin: origin,
             units: units,
             target: target
         }
-        props.onSaveOrder(attackOrder);
+        props.onSaveOrder(moveOrder);
     }
     // show the confirmed units information
     const confirmedUnits = units.map(unit => (
@@ -46,11 +46,12 @@ const AttackOrderForm = (props) => {
             <Origin onSaveOrigin={onSaveOrigin}/>
             {(units.length === 0) ? null : <p>Confirmed Units: </p>}
             { confirmedUnits }
-            {hasOrigin ? <Units onSaveUnits={onConfirmUnits} units={units}/> : null}
+            { hasOrigin ? <Units onSaveUnits={onConfirmUnits} /> : null}
             {(hasOrigin && hasUnits) ? <Target onSaveTarget={onSaveTarget}/> : null}
             {(hasOrigin && hasUnits && hasTarget) ? <Button onClick={onSaveOrder} variant={"Outlined"}>Save</Button> : null}
         </div>
     );
+
 };
 
-export default AttackOrderForm;
+export default MoveOrderForm;
